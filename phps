@@ -3,8 +3,8 @@
 version=$1
 main=${version:0:1}
 
-brew unlink php@5.6 php@7.0 php@7.1 php@7.2
-brew link php@$version --force --overwrite
+brew list -1 | grep php | while read line; do brew unlink $line; done
+brew link php@$version --force
 
 sed -i -e "s/php@[0-9]\.[0-9]/php@$version/g" /usr/local/etc/httpd/httpd.conf
 sed -i -e "s/php[0-9]/php$main/g" /usr/local/etc/httpd/httpd.conf
